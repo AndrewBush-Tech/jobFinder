@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-// Replace with your actual deployed backend URL on Vercel
-const backendUrl = "https://your-backend.vercel.app";
-
 function JobFinder() {
   const [resume, setResume] = useState(null);
   const [threshold, setThreshold] = useState(0.2);
@@ -19,41 +16,26 @@ function JobFinder() {
     formData.append("threshold", threshold);
     formData.append("entryLevel", entryLevel);
 
-    try {
-      const res = await axios.post(`${backendUrl}/api/match`, formData);
-      setResults(res.data);
-    } catch (error) {
-      alert("Error matching jobs: " + error.message);
-      console.error(error);
-    }
+    const res = await axios.post("http://localhost:5000/api/match", formData);
+    setResults(res.data);
   };
 
   const handleRefresh = async () => {
-    try {
-      const res = await axios.post(`${backendUrl}/api/update-jobs`);
-      const { new_jobs } = res.data;
+    const res = await axios.post("http://localhost:5000/api/update-jobs");
+    const { new_jobs } = res.data;
 
-      const countRes = await axios.get(`${backendUrl}/api/job-count`);
-      const currentCount = countRes.data.count;
-      alert(`✅ Jobs refreshed. New jobs added: ${new_jobs}`);
+    const countRes = await axios.get("http://localhost:5000/api/job-count");
+    const currentCount = countRes.data.count;
+    alert(`✅ Jobs refreshed.`);
 
-      setLastJobCount(currentCount);
-      handleMatch();
-    } catch (error) {
-      alert("Error refreshing jobs: " + error.message);
-      console.error(error);
-    }
+    setLastJobCount(currentCount);
+    handleMatch();
   };
 
   useEffect(() => {
-    axios
-      .get(`${backendUrl}/api/job-count`)
-      .then((res) => {
-        setLastJobCount(res.data.count);
-      })
-      .catch((err) => {
-        console.error("Error fetching job count:", err);
-      });
+    axios.get("http://localhost:5000/api/job-count").then((res) => {
+      setLastJobCount(res.data.count);
+    });
   }, []);
 
   return (
