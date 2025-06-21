@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const API_BASE_URL = "https://jobfinder-backend-production-866e.up.railway.app";
+
 function JobFinder() {
   const [resume, setResume] = useState(null);
   const [threshold, setThreshold] = useState(0.2);
@@ -11,31 +13,42 @@ function JobFinder() {
   const handleMatch = async () => {
     if (!resume) return alert("Please upload a resume.");
 
-    const formData = new FormData();
-    formData.append("resume", resume);
-    formData.append("threshold", threshold);
-    formData.append("entryLevel", entryLevel);
+    try {
+      const formData = new FormData();
+      formData.append("resume", resume);
+      formData.append("threshold", threshold);
+      formData.append("entryLevel", entryLevel);
 
-    const res = await axios.post("http://localhost:5000/api/match", formData);
-    setResults(res.data);
+      const res = await axios.post(`${API_BASE_URL}/api/match`, formData);
+      setResults(res.data);
+    } catch (error) {
+      console.error("Match error:", error);
+      alert("Failed to match jobs.");
+    }
   };
 
   const handleRefresh = async () => {
-    const res = await axios.post("http://localhost:5000/api/update-jobs");
-    const { new_jobs } = res.data;
+    try {
+      const res = await axios.post(`${API_BASE_URL}/api/update-jobs`);
+      const { new_jobs } = res.data;
 
-    const countRes = await axios.get("http://localhost:5000/api/job-count");
-    const currentCount = countRes.data.count;
-    alert(`✅ Jobs refreshed.`);
+      const countRes = await axios.get(`${API_BASE_URL}/api/job-count`);
+      const currentCount = countRes.data.count;
+      alert(`✅ Jobs refreshed. New jobs: ${new_jobs}`);
 
-    setLastJobCount(currentCount);
-    handleMatch();
+      setLastJobCount(currentCount);
+      handleMatch();
+    } catch (error) {
+      console.error("Refresh error:", error);
+      alert("Failed to refresh jobs.");
+    }
   };
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/job-count").then((res) => {
-      setLastJobCount(res.data.count);
-    });
+    axios
+      .get(`${API_BASE_URL}/api/job-count`)
+      .then((res) => setLastJobCount(res.data.count))
+      .catch(console.error);
   }, []);
 
   return (
@@ -57,7 +70,7 @@ function JobFinder() {
             max="0.9"
             step="0.05"
             value={threshold}
-            onChange={(e) => setThreshold(e.target.value)}
+            onChange={(e) => setThreshold(parseFloat(e.target.value))}
             className="w-full"
           />
         </div>
