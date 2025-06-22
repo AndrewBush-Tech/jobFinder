@@ -29,15 +29,16 @@ function JobFinder() {
 
   const handleRefresh = async () => {
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/update-jobs`);
-      const { new_jobs } = res.data;
+      await axios.post(`${API_BASE_URL}/api/update-jobs`);
 
       const countRes = await axios.get(`${API_BASE_URL}/api/job-count`);
       const currentCount = countRes.data.count;
+      setLastJobCount(currentCount);
+
       alert(`✅ Jobs refreshed.`);
 
-      setLastJobCount(currentCount);
-      handleMatch();
+      // Await matching right after refresh — no delay needed
+      await handleMatch();
     } catch (error) {
       console.error("Refresh error:", error);
       alert("Failed to refresh jobs.");
