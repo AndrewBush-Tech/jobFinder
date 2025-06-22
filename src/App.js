@@ -9,6 +9,7 @@ function JobFinder() {
   const [entryLevel, setEntryLevel] = useState(false);
   const [results, setResults] = useState([]);
   const [lastJobCount, setLastJobCount] = useState(0);
+  const [loading, setLoading] = useState(false); // <-- new loading state
 
   const handleMatch = async () => {
     if (!resume) return alert("Please upload a resume.");
@@ -28,6 +29,7 @@ function JobFinder() {
   };
 
   const handleRefresh = async () => {
+    setLoading(true); // start loading
     try {
       await axios.post(`${API_BASE_URL}/api/update-jobs`);
 
@@ -35,13 +37,14 @@ function JobFinder() {
       const currentCount = countRes.data.count;
       setLastJobCount(currentCount);
 
-      alert(`✅ Jobs refreshed.`);
+      // No alert here, replaced with spinner
 
-      // Await matching right after refresh — no delay needed
       await handleMatch();
     } catch (error) {
       console.error("Refresh error:", error);
       alert("Failed to refresh jobs.");
+    } finally {
+      setLoading(false); // stop loading regardless of success/failure
     }
   };
 
@@ -62,6 +65,7 @@ function JobFinder() {
           accept=".txt,.pdf,.docx"
           onChange={(e) => setResume(e.target.files[0])}
           required
+          disabled={loading} // disable while loading
         />
         <div>
           <label>Match Threshold: {threshold}</label>
@@ -73,6 +77,7 @@ function JobFinder() {
             value={threshold}
             onChange={(e) => setThreshold(parseFloat(e.target.value))}
             className="w-full"
+            disabled={loading}
           />
         </div>
         <label>
@@ -80,6 +85,7 @@ function JobFinder() {
             type="checkbox"
             checked={entryLevel}
             onChange={(e) => setEntryLevel(e.target.checked)}
+            disabled={loading}
           />
           Entry-Level Only
         </label>
@@ -87,8 +93,9 @@ function JobFinder() {
         <button
           onClick={handleRefresh}
           className="bg-blue-600 text-white px-4 py-2 rounded"
+          disabled={loading} // disable while loading
         >
-          🔄 Find & Refresh Jobs
+          {loading ? "⏳ Loading..." : "🔄 Find & Refresh Jobs"}
         </button>
       </div>
 
