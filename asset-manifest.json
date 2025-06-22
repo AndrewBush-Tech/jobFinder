@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/AndrewBush-Tech/jobFinder.git/static/js/main.e846389e.js",
-    "index.html": "/AndrewBush-Tech/jobFinder.git/index.html",
-    "main.e846389e.js.map": "/AndrewBush-Tech/jobFinder.git/static/js/main.e846389e.js.map"
+    "main.js": "/jobFinder/static/js/main.b66c64db.js",
+    "index.html": "/jobFinder/index.html",
+    "main.b66c64db.js.map": "/jobFinder/static/js/main.b66c64db.js.map"
   },
   "entrypoints": [
-    "static/js/main.e846389e.js"
+    "static/js/main.b66c64db.js"
   ]
 }
