@@ -34,7 +34,7 @@ function JobFinder() {
 
       const countRes = await axios.get(`${API_BASE_URL}/api/job-count`);
       const currentCount = countRes.data.count;
-      alert(`✅ Jobs refreshed. New jobs: ${new_jobs}`);
+      alert(`✅ Jobs refreshed.`);
 
       setLastJobCount(currentCount);
       handleMatch();
