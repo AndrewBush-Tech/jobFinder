@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_BASE_URL = "https://jobfinder-backend-production-866e.up.railway.app";
+const API_BASE_URL = "https://jobfinderbackend-production-2c7e.up.railway.app";
 
 function JobFinder() {
   const [resume, setResume] = useState(null);
