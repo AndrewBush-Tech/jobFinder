@@ -106,7 +106,9 @@ function JobFinder() {
         {results.map((job, i) => (
           <div key={i} className="p-4 border rounded mb-4">
             <h3 className="font-semibold">{job.title}</h3>
-            <p className="text-sm text-gray-600">{job.company}</p>
+            <p className="text-sm text-gray-600">
+              {job.company} — <span className="italic">{job.source}</span>
+            </p>
             <p className="text-green-600 font-bold">Match Score: {job.score}</p>
             <a
               href={job.link}
