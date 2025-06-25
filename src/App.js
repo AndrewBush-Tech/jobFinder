@@ -9,7 +9,7 @@ function JobFinder() {
   const [entryLevel, setEntryLevel] = useState(false);
   const [results, setResults] = useState([]);
   const [lastJobCount, setLastJobCount] = useState(0);
-  const [loading, setLoading] = useState(false); // <-- new loading state
+  const [loading, setLoading] = useState(false);
 
   const handleMatch = async () => {
     if (!resume) return alert("Please upload a resume.");
@@ -29,7 +29,7 @@ function JobFinder() {
   };
 
   const handleRefresh = async () => {
-    setLoading(true); // start loading
+    setLoading(true);
     try {
       await axios.post(`${API_BASE_URL}/api/update-jobs`);
 
@@ -37,14 +37,13 @@ function JobFinder() {
       const currentCount = countRes.data.count;
       setLastJobCount(currentCount);
 
-      // No alert here, replaced with spinner
 
       await handleMatch();
     } catch (error) {
       console.error("Refresh error:", error);
       alert("Failed to refresh jobs.");
     } finally {
-      setLoading(false); // stop loading regardless of success/failure
+      setLoading(false);
     }
   };
 
@@ -65,7 +64,7 @@ function JobFinder() {
           accept=".txt,.pdf,.docx"
           onChange={(e) => setResume(e.target.files[0])}
           required
-          disabled={loading} // disable while loading
+          disabled={loading}
         />
         <div>
           <label>Match Threshold: {threshold}</label>
@@ -93,7 +92,7 @@ function JobFinder() {
         <button
           onClick={handleRefresh}
           className="bg-blue-600 text-white px-4 py-2 rounded"
-          disabled={loading} // disable while loading
+          disabled={loading}
         >
           {loading ? "⏳ Loading..." : "🔄 Find & Refresh Jobs"}
         </button>
@@ -107,7 +106,7 @@ function JobFinder() {
           <div key={i} className="p-4 border rounded mb-4">
             <h3 className="font-semibold">{job.title}</h3>
             <p className="text-sm text-gray-600">
-              {job.company} — <span className="italic">{job.source}</span>
+              {job.company}
             </p>
             <p className="text-green-600 font-bold">Match Score: {job.score}</p>
             <p className="mt-2 text-sm text-gray-700">{job.desc.slice(0, 300)}...</p>
