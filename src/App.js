@@ -57,7 +57,7 @@ function JobFinder() {
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">🎯 AI Job Matcher</h1>
+      <h1 className="text-3xl font-bold mb-4">Job Matcher</h1>
 
       <div className="space-y-4">
         <input
