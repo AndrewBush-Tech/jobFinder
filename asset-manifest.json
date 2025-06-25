@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/jobFinder/static/js/main.67c6fb0e.js",
+    "main.js": "/jobFinder/static/js/main.14e31d23.js",
     "index.html": "/jobFinder/index.html",
-    "main.67c6fb0e.js.map": "/jobFinder/static/js/main.67c6fb0e.js.map"
+    "main.14e31d23.js.map": "/jobFinder/static/js/main.14e31d23.js.map"
   },
   "entrypoints": [
-    "static/js/main.67c6fb0e.js"
+    "static/js/main.14e31d23.js"
   ]
 }
