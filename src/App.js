@@ -110,6 +110,7 @@ function JobFinder() {
               {job.company} — <span className="italic">{job.source}</span>
             </p>
             <p className="text-green-600 font-bold">Match Score: {job.score}</p>
+            <p className="mt-2 text-sm text-gray-700">{job.desc.slice(0, 300)}...</p>
             <a
               href={job.link}
               target="_blank"
